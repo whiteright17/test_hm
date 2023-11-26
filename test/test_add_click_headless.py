@@ -1,12 +1,12 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from conftest import browser
+from conftest import headless
 
 
-def test_click_all_site(browser):
-    browser.get("https://the-internet.herokuapp.com/floating_menu#home")
-    wait = WebDriverWait(browser, 7)
+def test_click_incognito(headless):
+    headless.get("https://the-internet.herokuapp.com/floating_menu#home")
+    wait = WebDriverWait(headless, 7)
 
     menu_item_locators = [
         (By.XPATH, "//a[text()='Home']"),
@@ -14,7 +14,8 @@ def test_click_all_site(browser):
         (By.XPATH, "//a[text()='Contact']"),
         (By.XPATH, "//a[text()='About']")
     ]
+
     for menu_item_locator in menu_item_locators:
         menu_item = wait.until(EC.presence_of_element_located(menu_item_locator))
         menu_item.click()
-        assert "floating_menu" in browser.current_url.lower()
+        assert "floating_menu" in headless.current_url.lower()
